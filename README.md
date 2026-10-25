@@ -1,0 +1,1 @@
+# omasashi531.github.io
