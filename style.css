@@ -1,0 +1,11 @@
+:root { --bg: #f4f3f7; --fg: #1d1c26; --muted: #5d5a70; --line: #d9d6e3; --accent: #6a4fb3; }
+@media (prefers-color-scheme: dark) { :root { --bg: #111019; --fg: #e9e7f2; --muted: #a29fb8; --line: #2b2940; --accent: #b9a3ff; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.8 "Hiragino Sans", "Yu Gothic", system-ui, sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 48px 16px 64px; }
+h1 { font-size: 28px; letter-spacing: .04em; margin: 0 0 4px; }
+h2 { font-size: 18px; margin: 32px 0 8px; }
+.tag { color: var(--muted); margin: 0 0 32px; }
+a { color: var(--accent); }
+ul { padding-left: 1.3em; }
+footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
