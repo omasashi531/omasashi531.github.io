@@ -1,11 +1,281 @@
-:root { --bg: #f4f3f7; --fg: #1d1c26; --muted: #5d5a70; --line: #d9d6e3; --accent: #6a4fb3; }
-@media (prefers-color-scheme: dark) { :root { --bg: #111019; --fg: #e9e7f2; --muted: #a29fb8; --line: #2b2940; --accent: #b9a3ff; } }
+/* ===============================================================
+   LAST LIFE LOG 公式サイトの見た目
+   テーマ：廃墟の街の、屋上の放送局。古いコンクリートと色あせた紙、錆と苔。
+   =============================================================== */
+:root {
+  --paper: #e6e1d6;      /* 色あせた紙（背景） */
+  --paper-2: #d8d1c2;    /* 一段暗い紙 */
+  --card: #f1ede4;       /* カード */
+  --ink: #23211d;        /* 文字 */
+  --muted: #6a645a;      /* うすい文字 */
+  --line: #bfb6a4;       /* 線 */
+  --night: #15171c;      /* 夜 */
+  --night-2: #252830;
+  --rust: #a8502e;       /* 錆 */
+  --moss: #5f6d45;       /* 苔 */
+  --slate: #4c5a63;      /* くすんだ青 */
+  --signal: #e0482d;     /* ON AIR の赤 */
+  --tape: rgba(214, 199, 160, .82);
+  --stencil: "Stardos Stencil", "Zen Kaku Gothic New", sans-serif;
+  --type: "Special Elite", "Courier New", monospace;
+  --body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  --diary: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  /* 紙のざらつき（SVGのノイズ） */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .18 0 0 0 0 .14 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.8 "Hiragino Sans", "Yu Gothic", system-ui, sans-serif; }
-main { max-width: 720px; margin: 0 auto; padding: 48px 16px 64px; }
-h1 { font-size: 28px; letter-spacing: .04em; margin: 0 0 4px; }
-h2 { font-size: 18px; margin: 32px 0 8px; }
-.tag { color: var(--muted); margin: 0 0 32px; }
-a { color: var(--accent); }
-ul { padding-left: 1.3em; }
-footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper) var(--grain);
+  color: var(--ink);
+  font: 16px/1.9 var(--body);
+  letter-spacing: .02em;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+.narrow { max-width: 760px; }
+.en { display: block; color: var(--muted); font-size: .88em; line-height: 1.7; margin-top: .4em; }
+.center { text-align: center; }
+.empty { color: var(--muted); text-align: center; padding: 32px 0; }
+@media (min-width: 768px) { .wrap { padding: 0 32px; } }
+@media (max-width: 767px) { .pc { display: none; } }
+
+/* ---------- 電波のテロップ ---------- */
+.ticker {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--night); color: #d9d2c2;
+  font: 13px/1 var(--type); padding: 8px 16px; overflow: hidden; white-space: nowrap;
+}
+.onair { position: relative; z-index: 1; flex: none; padding-right: 12px; background: var(--night); color: var(--signal); animation: blink 2.4s steps(1) infinite; }
+@keyframes blink { 0%, 60% { color: var(--signal) } 61%, 100% { color: #5a2a22 } }
+.ticker-track { display: flex; animation: tick 40s linear infinite; }
+.ticker-track span { padding-right: 2em; }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* ---------- メニュー ---------- */
+.nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  max-width: 1080px; margin: 0 auto; padding: 14px 16px;
+}
+.logo { font: 700 20px/1.1 var(--stencil); letter-spacing: .08em; text-decoration: none; }
+.logo small { display: block; font: 11px/1.4 var(--type); letter-spacing: .04em; color: var(--muted); }
+.nav ul { display: flex; gap: 4px 18px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+.nav a:not(.logo) { font: 15px var(--type); text-decoration: none; padding: 4px 0; }
+.nav a[aria-current="page"] { color: var(--rust); border-bottom: 2px solid var(--rust); }
+.nav a:not(.logo):hover { color: var(--rust); }
+@media (min-width: 768px) { .nav { padding: 18px 32px; } }
+
+/* ---------- 入口（ヒーロー） ---------- */
+.hero { position: relative; margin: 0 auto 72px; max-width: 1240px; padding: 0 16px; }
+.hero-art {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--night);
+  border: 6px solid var(--card); box-shadow: 0 2px 0 var(--line), 0 18px 40px rgba(35, 33, 29, .25);
+}
+.hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-art::after { /* 古い映像の走査線 */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .14) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+.hero-signal {
+  position: absolute; right: 14px; top: 10px; margin: 0; z-index: 1;
+  font: 12px var(--type); color: #e9dfc8; text-shadow: 0 1px 2px #000;
+}
+.hero-copy {
+  position: relative; margin: -40px 8px 0; padding: 22px 20px 24px;
+  background: var(--card) var(--grain); border: 1px solid var(--line);
+  box-shadow: 6px 6px 0 var(--night);
+}
+.hero-open { margin: 0 0 6px; font: 14px var(--type); color: var(--rust); }
+.hero-copy h1 { margin: 0; font: 700 clamp(28px, 6vw, 52px)/1.3 var(--diary); letter-spacing: .04em; }
+.hero-en { margin: 8px 0 0; font: clamp(14px, 2vw, 18px) var(--type); color: var(--muted); }
+@media (min-width: 900px) {
+  .hero { padding: 0 32px; }
+  .hero-copy { position: absolute; left: 64px; bottom: -48px; margin: 0; padding: 30px 40px; }
+  .hero-copy h1 { white-space: nowrap; font-size: 46px; }
+}
+
+/* ---------- 紹介文 ---------- */
+.intro { text-align: center; padding-top: 24px; }
+.intro p { margin: 0 0 1.4em; }
+.intro .en { max-width: 640px; margin: 0 auto 2em; }
+@media (min-width: 900px) { .intro { padding-top: 72px; } }
+
+/* ---------- ボタン ---------- */
+.btn {
+  display: inline-block; padding: 12px 34px; margin-top: 8px;
+  border: 2px solid var(--ink); background: var(--card); text-decoration: none;
+  font: 15px var(--type); box-shadow: 4px 4px 0 var(--ink); transition: transform .15s, box-shadow .15s;
+}
+.btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); color: var(--rust); }
+
+/* ---------- 見出し（ステンシル＋錆色のスプレー線） ---------- */
+.sec { padding-top: 72px; padding-bottom: 24px; }
+.page { padding-top: 40px; padding-bottom: 72px; }
+.sec-head { margin-bottom: 32px; }
+.sec-ja { margin: 0; font-size: 13px; color: var(--muted); letter-spacing: .08em; }
+.sec-en {
+  position: relative; display: inline-block; margin: 0; padding-bottom: 10px;
+  font: 700 clamp(44px, 8vw, 72px)/1 var(--stencil); letter-spacing: .04em; transform: rotate(-2deg); z-index: 0;
+}
+.sec-en::after {
+  content: ""; position: absolute; left: -6%; right: -14%; bottom: -6px; height: 22px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 22' preserveAspectRatio='none'%3E%3Cpath d='M4 15 C60 6 120 18 180 9 S270 7 296 12' stroke='%23a8502e' stroke-width='6' fill='none' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M30 19 C90 14 160 20 240 15' stroke='%23a8502e' stroke-width='2' fill='none' stroke-linecap='round' opacity='.5'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+  z-index: -1;
+}
+.lead { max-width: 640px; margin: 0 0 40px; }
+
+/* ---------- LOGのカード（テープで貼った写真） ---------- */
+.cards { display: grid; gap: 40px 28px; grid-template-columns: 1fr; margin-bottom: 40px; }
+@media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+.card {
+  position: relative; display: block; padding: 12px 12px 18px; text-decoration: none;
+  background: var(--card) var(--grain); border: 1px solid var(--line);
+  box-shadow: 0 10px 24px rgba(35, 33, 29, .14);
+  transform: rotate(var(--tilt, 0deg)); transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 16px 30px rgba(35, 33, 29, .2); }
+.tape {
+  position: absolute; top: -12px; left: 50%; width: 96px; height: 26px; margin-left: -48px; z-index: 2;
+  background: var(--tape); transform: rotate(-3deg);
+  clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 2% 96%, 0 50%);
+}
+.card-img { aspect-ratio: 16 / 9; overflow: hidden; background: var(--night); filter: saturate(.8) contrast(1.05); }
+.card-img img { width: 100%; height: 100%; object-fit: cover; }
+.meta { margin: 12px 0 2px; font: 12px var(--type); color: var(--rust); letter-spacing: .04em; }
+.card h3 { margin: 0 0 6px; font: 700 19px/1.5 var(--diary); }
+.card-text { margin: 0; font-size: 14px; line-height: 1.8; }
+.card-en { margin: 8px 0 0; font: 12px/1.5 var(--type); color: var(--muted); }
+
+/* 背景画像がまだ無いLOGの代わりの絵 */
+.ph {
+  width: 100%; height: 100%; display: grid; place-items: center;
+  background:
+    var(--grain),
+    radial-gradient(circle at 75% 25%, hsla(var(--h), 30%, 70%, .35), transparent 45%),
+    linear-gradient(160deg, hsl(var(--h), 14%, 26%), hsl(calc(var(--h) + 30), 18%, 14%));
+}
+.ph span { font: 700 clamp(22px, 4vw, 34px) var(--stencil); color: rgba(233, 223, 200, .78); letter-spacing: .1em; }
+
+/* ---------- 動画の帯（横にスクロール） ---------- */
+.band { background: var(--night) var(--grain); color: #e6dfcf; margin-top: 48px; padding-bottom: 56px; }
+.band .sec-ja { color: #a59e8f; }
+.band .btn { background: transparent; color: #e6dfcf; border-color: #e6dfcf; box-shadow: 4px 4px 0 var(--rust); }
+.films {
+  display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 4px 16px 24px; margin-bottom: 16px; scrollbar-color: var(--rust) transparent;
+}
+@media (min-width: 1080px) { .films { padding-left: calc((100vw - 1080px) / 2 + 32px); } }
+.film { flex: 0 0 min(78vw, 320px); scroll-snap-align: start; text-decoration: none; }
+.film-img { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #3a3d45; }
+.film-img img { width: 100%; height: 100%; object-fit: cover; }
+.play {
+  position: absolute; inset: 0; margin: auto; width: 48px; height: 48px; display: grid; place-items: center;
+  border: 2px solid #e6dfcf; border-radius: 50%; font-size: 16px; padding-left: 3px; background: rgba(21, 23, 28, .5);
+}
+.film .meta { color: #d98a66; }
+.film p { margin: 0; font-size: 14px; }
+.soon { display: inline-block; margin-left: 8px; padding: 0 6px; font: 11px/1.7 var(--type); border: 1px solid #a59e8f; color: #a59e8f; }
+
+/* ---------- 色つきの3つの入口 ---------- */
+.tiles { display: grid; gap: 16px; grid-template-columns: 1fr; padding-top: 72px; padding-bottom: 80px; }
+@media (min-width: 768px) { .tiles { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+.tile {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
+  min-height: 150px; padding: 20px; color: #f1ead9; text-decoration: none; overflow: hidden;
+  background-image: var(--grain); box-shadow: 6px 6px 0 var(--night); transition: transform .15s, box-shadow .15s;
+}
+.tile:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--night); }
+.tile-en { font: 700 38px/1 var(--stencil); letter-spacing: .04em; }
+.tile span:last-child { font-size: 14px; }
+.tile::before { /* 角の剥がれたペンキ */
+  content: "→"; position: absolute; top: 14px; right: 18px; font: 22px var(--type);
+}
+.t-rust { background-color: var(--rust); }
+.t-moss { background-color: var(--moss); }
+.t-slate { background-color: var(--slate); }
+
+/* ---------- LOGの個別ページ ---------- */
+.log-title { margin: 6px 0 20px; font: 700 clamp(28px, 5vw, 42px)/1.35 var(--diary); }
+.log-title span { display: block; font: 700 clamp(20px, 3vw, 26px) var(--stencil); color: var(--rust); letter-spacing: .08em; }
+.log-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 20px; margin: 0 0 28px; padding: 14px 16px; border: 1px dashed var(--line); font-size: 14px; }
+@media (min-width: 640px) { .log-meta { grid-template-columns: repeat(4, auto); } }
+.log-meta dt { font: 11px var(--type); color: var(--muted); }
+.log-meta dd { margin: 0; }
+.video { position: relative; aspect-ratio: 16 / 9; background: var(--night); margin-bottom: 48px; border: 6px solid var(--card); box-shadow: 0 12px 30px rgba(35, 33, 29, .2); }
+.video iframe, .video img, .video .ph { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+.diary {
+  position: relative; padding: 34px 24px 28px; margin-bottom: 48px;
+  background: var(--card) var(--grain);
+  background-image: var(--grain), repeating-linear-gradient(transparent 0 33px, rgba(106, 100, 90, .18) 33px 34px);
+  background-position: 0 0, 0 -3px;
+  border: 1px solid var(--line); box-shadow: 0 10px 24px rgba(35, 33, 29, .12);
+  font: 17px/34px var(--diary);
+}
+.diary p { margin: 0 0 34px; }
+.diary-open, .diary-close { color: var(--rust); }
+.diary-en { position: relative; margin: 0 -24px -28px; padding: 20px 24px 28px; background: var(--card); border-top: 1px solid var(--line); font: 14px/1.8 var(--type); color: var(--muted); }
+.diary-en p { margin: 0 0 1em; }
+@media (min-width: 640px) { .diary { padding: 34px 48px 32px; } .diary-en { margin: 0 -48px -32px; padding: 20px 48px 32px; } }
+.pager { display: flex; justify-content: space-between; gap: 12px; font: 14px var(--type); }
+.pager a { text-decoration: none; border-bottom: 1px solid var(--ink); }
+
+/* ---------- 世界観 ---------- */
+.world-list { display: grid; gap: 28px; grid-template-columns: 1fr; }
+@media (min-width: 800px) { .world-list { grid-template-columns: repeat(2, 1fr); } }
+.world-card { position: relative; padding: 26px 24px 22px; background: var(--card) var(--grain); border: 1px solid var(--line); box-shadow: 6px 6px 0 var(--paper-2); }
+.world-card h3 { margin: 0 0 12px; font: 700 24px/1.4 var(--diary); }
+.world-card h3 .en { display: inline; font: 14px var(--type); margin-left: 8px; }
+.world-card p { margin: 0 0 1em; }
+.stamp {
+  display: inline-block; margin: 0 0 10px !important; padding: 2px 10px; transform: rotate(-3deg);
+  font: 700 13px var(--stencil); letter-spacing: .12em; color: var(--rust); border: 2px solid var(--rust); opacity: .9;
+}
+.items { margin: 0 0 1em; padding-left: 1.2em; }
+.items li { margin-bottom: 6px; }
+.items .en { font-size: 12px; margin-top: 0; }
+.en-block { font: 13px/1.8 var(--type); color: var(--muted); }
+.locked { margin-top: 40px; padding: 16px; text-align: center; border: 1px dashed var(--line); font: 14px var(--type); color: var(--muted); }
+
+/* ---------- リンク ---------- */
+.link-list { list-style: none; margin: 0 0 48px; padding: 0; display: grid; gap: 14px; }
+.link-list a {
+  display: grid; grid-template-columns: auto 1fr; gap: 0 16px; align-items: center; padding: 16px 20px;
+  background: var(--card) var(--grain); border: 1px solid var(--line); text-decoration: none; box-shadow: 4px 4px 0 var(--night);
+  transition: transform .15s, box-shadow .15s;
+}
+.link-list a:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--night); }
+.link-list .ch { grid-row: span 2; font: 700 18px var(--stencil); color: var(--rust); }
+.link-list strong { font-size: 17px; }
+.link-list span:last-child { font-size: 13px; color: var(--muted); }
+.small-head { font: 700 18px var(--diary); margin: 0 0 8px; }
+
+/* ---------- プライバシーポリシーなど ---------- */
+.legal h1 { font: 700 30px/1.4 var(--diary); margin: 0 0 4px; }
+.legal h2 { font: 700 18px var(--diary); margin: 36px 0 8px; }
+.legal .tag { color: var(--muted); margin: 0 0 24px; }
+.legal a { color: var(--rust); }
+.legal ul { padding-left: 1.3em; }
+.updated { margin-top: 40px; font: 13px var(--type); color: var(--muted); }
+
+/* ---------- フッター ---------- */
+#site-footer { background: var(--night) var(--grain); color: #cfc8b8; }
+.footer-inner { max-width: 1080px; margin: 0 auto; padding: 48px 16px 32px; text-align: center; }
+.footer-inner .logo { font-size: 26px; margin: 0 0 12px; }
+.end { margin: 0 0 24px; font: 16px var(--diary); }
+.end span { display: block; font: 13px var(--type); color: #8f8879; }
+.footer-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; list-style: none; padding: 0; margin: 0 0 24px; font: 14px var(--type); }
+.footer-nav a { text-decoration: none; }
+.footer-nav a:hover { color: #d98a66; }
+.ai { font-size: 12px; color: #8f8879; line-height: 1.8; }
+.copy { margin: 16px 0 0; font: 12px var(--type); color: #6f695d; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track, .onair { animation: none; }
+  .card, .btn, .tile { transition: none; }
+}

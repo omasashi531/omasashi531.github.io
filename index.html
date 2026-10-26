@@ -3,22 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LAST LIFE LOG</title>
-<meta name="description" content="LAST LIFE LOG — radio from the end of the world">
+<title>LAST LIFE LOG — radio from the end of the world</title>
+<meta name="description" content="文明が終わったあとの世界から、ひとりの少女が毎日の記録を音楽にして放送しています。作業・勉強・リラックスのためのBGMチャンネル。">
+<meta property="og:title" content="LAST LIFE LOG — radio from the end of the world">
+<meta property="og:description" content="文明が終わったあとの世界から、ひとりの少女が毎日の記録を音楽にして放送しています。作業・勉強・リラックスのためのBGMチャンネル。">
+<meta property="og:site_name" content="LAST LIFE LOG">
+<meta name="theme-color" content="#15171c">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Stardos+Stencil:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=Zen+Old+Mincho:wght@400;700&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-page="home">
+<header id="site-header"></header>
 <main>
-  <h1>LAST LIFE LOG</h1>
-  <p class="tag">radio from the end of the world</p>
-  <p>文明が終わったあとの世界から、ひとりの少女が毎日の記録（ライフログ）を音楽にして放送しています。作業・勉強・リラックスのためのBGMチャンネルです。</p>
-  <p>A girl living after the end of civilization turns each day's log into music and broadcasts it. Background music for work, study and relaxation.</p>
-  <p><a href="https://www.youtube.com/@lastlifelog">YouTube: @lastlifelog</a></p>
-  <p class="tag">https://lastlifelog.com</p>
-  <footer>
-    <a href="privacy.html">プライバシーポリシー / Privacy Policy</a><br>
-    このチャンネルでは、AIで生成したイラストと音楽を使用しています。 This channel uses AI-generated illustrations and music.
-  </footer>
+<section class="hero">
+  <div class="hero-art">
+    <img class="hero-base" src="img/hero.svg" alt="夜の廃墟の街。古いビルの屋上にアンテナが立ち、少女が座っている">
+    <img class="hero-photo" src="img/hero.jpg" alt="" onerror="this.remove()">
+    <p class="hero-signal"><span id="hero-day">DAY ---</span> ／ SIGNAL ▂▃▅▆▇</p>
+  </div>
+  <div class="hero-copy">
+    <p class="hero-open">こちら、LAST LIFE LOG。</p>
+    <h1>終わった世界の、<br>屋上から。</h1>
+    <p class="hero-en">radio from the end of the world</p>
+  </div>
+</section>
+
+<section class="intro wrap">
+  <p>文明が終わったあとの世界に、ひとりの少女が生きている。<br>
+  彼女は毎日、見たもの・したこと・感じたことを短い記録（ライフログ）に残し、<br class="pc">
+  それを音楽にして、まだ誰かが聴いているかもしれない電波に流している。</p>
+  <p>このチャンネルの動画は、その放送の1日分。<br>さみしいけれど絶望ではなく、静かで、少しだけ前向きな、作業・勉強・リラックスのためのBGMです。</p>
+  <p class="en">A girl lives on after the end of civilization. Every day she turns what she saw, did and felt into a short log, makes it into music, and sends it out to anyone who might still be listening. Each video is one day of her broadcast.</p>
+  <a class="btn" href="world.html">この世界について</a>
+</section>
+
+<section class="sec wrap">
+  <div class="sec-head"><p class="sec-ja">放送記録 — これまでのログ</p><h2 class="sec-en">Logs</h2></div>
+  <div class="cards" id="home-logs"></div>
+  <p class="center"><a class="btn" href="logs.html">放送記録をすべて見る</a></p>
+</section>
+
+<section class="sec band">
+  <div class="wrap"><div class="sec-head"><p class="sec-ja">放送を聴く — YouTube</p><h2 class="sec-en">Broadcast</h2></div></div>
+  <div class="films" id="home-films"></div>
+  <p class="center"><a class="btn" href="https://www.youtube.com/@lastlifelog" target="_blank" rel="noopener">YouTubeで聴く</a></p>
+</section>
+
+<section class="tiles wrap">
+  <a class="tile t-rust" href="world.html"><span class="tile-en">World</span><span>彼女と、この世界のこと</span></a>
+  <a class="tile t-moss" href="https://www.youtube.com/@lastlifelog" target="_blank" rel="noopener"><span class="tile-en">YouTube</span><span>@lastlifelog</span></a>
+  <a class="tile t-slate" href="links.html"><span class="tile-en">Links</span><span>リンク・お問い合わせ</span></a>
+</section>
 </main>
+<footer id="site-footer"></footer>
+<script src="data/logs.js"></script>
+<script src="data/world.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <!-- 夜の廃墟の街。屋上のアンテナから電波が出ている（Midjourneyの絵 img/hero.jpg を置くと、そちらが上に表示される） -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f141c"/>
+      <stop offset=".55" stop-color="#2a303b"/>
+      <stop offset=".82" stop-color="#5b4a42"/>
+      <stop offset="1" stop-color="#8a5c43"/>
+    </linearGradient>
+    <radialGradient id="moonGlow">
+      <stop offset="0" stop-color="#f1e7cf" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#f1e7cf" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fog" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9c2b4" stop-opacity="0"/>
+      <stop offset="1" stop-color="#c9c2b4" stop-opacity=".45"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/>
+    </filter>
+    <style>
+      .blink { animation: blink 2.4s steps(1) infinite; }
+      @keyframes blink { 0%,60% { opacity: 1 } 61%,100% { opacity: .15 } }
+      .wave { fill: none; stroke: #e9dfc8; stroke-width: 3; opacity: 0; animation: wave 4s ease-out infinite; transform-origin: 1088px 352px; }
+      .w2 { animation-delay: 1.3s } .w3 { animation-delay: 2.6s }
+      @keyframes wave { 0% { opacity: .7; transform: scale(.3) } 100% { opacity: 0; transform: scale(1.6) } }
+      .star { fill: #e9e3d3; animation: tw 5s ease-in-out infinite; }
+      @keyframes tw { 50% { opacity: .3 } }
+      @media (prefers-reduced-motion: reduce) { .blink, .wave, .star { animation: none } .wave { opacity: .35 } }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#sky)"/>
+
+  <!-- 星 -->
+  <g>
+    <circle class="star" cx="120" cy="90" r="1.6"/><circle class="star" cx="260" cy="180" r="1.2" style="animation-delay:1s"/>
+    <circle class="star" cx="430" cy="70" r="1.4" style="animation-delay:2s"/><circle class="star" cx="610" cy="140" r="1"/>
+    <circle class="star" cx="760" cy="60" r="1.5" style="animation-delay:3s"/><circle class="star" cx="930" cy="120" r="1.1"/>
+    <circle class="star" cx="1180" cy="80" r="1.3" style="animation-delay:1.5s"/><circle class="star" cx="1330" cy="190" r="1"/>
+    <circle class="star" cx="1500" cy="100" r="1.6" style="animation-delay:2.5s"/><circle class="star" cx="1420" cy="40" r="1.1"/>
+    <circle class="star" cx="60" cy="250" r="1"/><circle class="star" cx="840" cy="230" r="1.2" style="animation-delay:4s"/>
+  </g>
+
+  <!-- 月 -->
+  <circle cx="1320" cy="190" r="170" fill="url(#moonGlow)"/>
+  <circle cx="1320" cy="190" r="58" fill="#ece2c9"/>
+  <circle cx="1298" cy="176" r="10" fill="#d9ccae"/><circle cx="1340" cy="214" r="7" fill="#d9ccae"/>
+
+  <!-- 遠くのビル（うすい） -->
+  <path fill="#3a3f48" d="M0 620 V520 h60 v-40 h50 v60 h40 V430 h70 v30 l20 -12 v172 h50 V500 h80 v-60 h30 v40 h40 v140 h60 V470 l30 -20 l30 20 V620 h50 V540 h90 v-80 h20 v-30 h10 v30 h20 v160 h60 V500 h70 l10 -20 l10 20 v120 h80 V450 h100 v170 h60 V520 h80 v-60 h40 v160 h90 V480 h60 v140 h70 V540 h90 V900 H0z"/>
+
+  <!-- 近くのビル（こい・壊れた屋根） -->
+  <path fill="#1a1d23" d="M0 900 V600 h90 l20 -18 l15 14 l25 -30 V690 h40 V560 h110 l-10 22 l18 10 l12 -26 V900z"/>
+  <path fill="#1a1d23" d="M330 900 V640 h140 V600 l30 -10 l24 18 l20 -14 l26 12 V900z"/>
+  <path fill="#1a1d23" d="M600 900 V560 h40 V520 h120 l20 30 l-14 14 l22 6 l12 -20 V900z"/>
+  <!-- 屋上の放送室があるビル -->
+  <path fill="#15171c" d="M900 900 V420 h330 V900z"/>
+  <path fill="#15171c" d="M1240 900 V600 l40 -12 l18 20 l30 -26 l22 30 h70 l14 -22 l20 16 V900z"/>
+  <path fill="#1a1d23" d="M1460 900 V650 h140 V900z"/>
+
+  <!-- 窓（ほとんど暗い・少しだけ灯り） -->
+  <g fill="#2a2e36">
+    <rect x="930" y="470" width="28" height="36"/><rect x="980" y="470" width="28" height="36"/><rect x="1030" y="470" width="28" height="36"/><rect x="1130" y="470" width="28" height="36"/><rect x="1180" y="470" width="28" height="36"/>
+    <rect x="930" y="540" width="28" height="36"/><rect x="1030" y="540" width="28" height="36"/><rect x="1080" y="540" width="28" height="36"/><rect x="1180" y="540" width="28" height="36"/>
+    <rect x="980" y="610" width="28" height="36"/><rect x="1080" y="610" width="28" height="36"/><rect x="1130" y="610" width="28" height="36"/>
+    <rect x="40" y="640" width="22" height="28"/><rect x="200" y="600" width="22" height="28"/><rect x="380" y="680" width="22" height="28"/><rect x="640" y="600" width="22" height="28"/><rect x="700" y="660" width="22" height="28"/>
+  </g>
+  <rect x="1080" y="470" width="28" height="36" fill="#d9a35b" opacity=".85"/>
+  <rect x="440" y="680" width="22" height="28" fill="#d9a35b" opacity=".35"/>
+
+  <!-- 割れ目とつる草 -->
+  <path d="M940 420 l12 40 l-8 30 l14 40" stroke="#0b0c0f" stroke-width="3" fill="none"/>
+  <path d="M1228 430 c-30 60 10 90 -20 150 c-20 40 10 70 -10 120" stroke="#3f4d31" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M905 440 c20 50 -14 80 6 140" stroke="#3f4d31" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <g fill="#4a5a38"><circle cx="1214" cy="500" r="7"/><circle cx="1222" cy="560" r="6"/><circle cx="1208" cy="640" r="7"/><circle cx="912" cy="500" r="5"/><circle cx="908" cy="560" r="6"/></g>
+
+  <!-- 屋上：アンテナ・植木鉢・彼女 -->
+  <g stroke="#15171c" stroke-width="5" fill="none">
+    <path d="M1088 420 V250"/>
+    <path d="M1060 420 L1088 300 L1116 420"/>
+    <path d="M1068 380 h40 M1074 350 h28 M1080 320 h16"/>
+    <path d="M1060 290 h56 M1068 270 h40"/>
+  </g>
+  <circle class="blink" cx="1088" cy="246" r="7" fill="#e0482d"/>
+  <circle class="wave" cx="1088" cy="352" r="140"/>
+  <circle class="wave w2" cx="1088" cy="352" r="140"/>
+  <circle class="wave w3" cx="1088" cy="352" r="140"/>
+  <g fill="#15171c">
+    <rect x="1150" y="400" width="22" height="20"/><path d="M1161 400 c-12 -20 -4 -30 0 -40 c4 10 14 18 0 40z"/>
+    <rect x="1182" y="404" width="16" height="16"/>
+    <!-- 屋上のふちに座る少女のシルエット -->
+    <circle cx="980" cy="378" r="11"/>
+    <path d="M966 420 c0 -26 4 -32 14 -32 c12 0 16 6 18 32z"/>
+    <path d="M974 420 l-6 26 h8 l6 -26z M988 420 l2 28 h8 l-2 -28z"/>
+  </g>
+  <path d="M968 382 c4 -12 20 -12 24 0" stroke="#15171c" stroke-width="3" fill="none"/>
+
+  <!-- 霧と粒 -->
+  <rect y="640" width="1600" height="260" fill="url(#fog)"/>
+  <rect width="1600" height="900" filter="url(#grain)"/>
+</svg>
