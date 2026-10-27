@@ -33,6 +33,35 @@ body::after {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
   background: repeating-linear-gradient(0deg, rgba(74, 71, 64, .035) 0 1px, transparent 1px 4px);
 }
+/* ---------- 背景：電波の輪・砂ぼこり・周りの影 ---------- */
+/* .atmos は js/site.js がページのいちばん後ろに入れる */
+.atmos { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+/* 動かない、うすい同心円（電波の届く範囲） */
+.atmos::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    repeating-radial-gradient(circle at 80% 16%, transparent 0 139px, rgba(74, 71, 64, .07) 139px 140px),
+    radial-gradient(circle at 80% 16%, rgba(255, 252, 240, .45), transparent 38%);
+}
+/* 砂ぼこりの粒と、画面の周りの影 */
+.atmos::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .29 0 0 0 0 .27 0 0 0 0 .22 0 0 0 1.6 -.95'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 45%, transparent 50%, rgba(74, 66, 50, .26) 100%);
+  opacity: .9;
+}
+/* 広がっていく電波の輪 */
+.atmos span {
+  position: absolute; left: 80%; top: 16%; width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax;
+  border: 1px solid rgba(74, 71, 64, .2); border-radius: 50%;
+  opacity: 0; transform: scale(.02); animation: ring 18s linear infinite;
+}
+.atmos span:nth-child(2) { animation-delay: 6s; }
+.atmos span:nth-child(3) { animation-delay: 12s; }
+@keyframes ring { 0% { opacity: 0; transform: scale(.02); } 8% { opacity: 1; } 100% { opacity: 0; transform: scale(1); } }
+@media (max-width: 767px) { .atmos::before { background: repeating-radial-gradient(circle at 85% 8%, transparent 0 89px, rgba(74, 71, 64, .07) 89px 90px); } .atmos span { left: 85%; top: 8%; } }
+
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 p { margin: 0 0 1.6em; }
@@ -230,7 +259,8 @@ button { font: inherit; color: inherit; }
 .reveal.is-in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .status b::before, .typing::after { animation: none; }
+  .status b::before, .typing::after, .atmos span { animation: none; }
+  .atmos span { display: none; }
   .glitch.is-noise, .glitch.is-noise::before, .glitch.is-noise::after { animation: none; opacity: 0; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .band::before { transition: none; }

@@ -276,6 +276,12 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     var page = document.body.getAttribute("data-page");
+    // 背景の電波の輪・砂ぼこり（ページのいちばん後ろ）
+    var atmos = document.createElement("div");
+    atmos.className = "atmos";
+    atmos.setAttribute("aria-hidden", "true");
+    atmos.innerHTML = "<span></span><span></span><span></span>";
+    document.body.insertBefore(atmos, document.body.firstChild);
     var published = publishedLogs();
     renderChrome(page, published);
     if (page === "home") renderHome(published);
