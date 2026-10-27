@@ -2,27 +2,27 @@
   <!-- 仮の絵：霧の中の廃墟の街（img/hero.jpg を置くと、Midjourneyの絵がこの上に表示される） -->
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#cfc9b4"/>
-      <stop offset="1" stop-color="#dad5c3"/>
+      <stop offset="0" stop-color="#ecebe4"/>
+      <stop offset="1" stop-color="#f8f7f3"/>
     </linearGradient>
     <linearGradient id="fog" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#dad5c3" stop-opacity="0"/>
-      <stop offset=".7" stop-color="#dad5c3" stop-opacity=".9"/>
-      <stop offset="1" stop-color="#dad5c3"/>
+      <stop offset="0" stop-color="#f8f7f3" stop-opacity="0"/>
+      <stop offset=".7" stop-color="#f8f7f3" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#f8f7f3"/>
     </linearGradient>
     <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
   </defs>
   <rect width="1600" height="900" fill="url(#sky)"/>
-  <circle cx="1180" cy="250" r="70" fill="#e6e1cf" opacity=".9"/>
+  <circle cx="1180" cy="250" r="70" fill="#ffffff" opacity=".9"/>
   <!-- 遠くのビル -->
-  <path filter="url(#soft)" fill="#bdb7a2" d="M0 700 V560 h80 v-50 h60 v90 h50 V470 h90 v130 h70 V520 h110 v-40 h40 v120 h80 V430 h120 v170 h60 V540 h90 V480 h70 v120 h90 V500 h120 v100 h80 V540 h110 V900 H0z"/>
+  <path filter="url(#soft)" fill="#dcdad1" d="M0 700 V560 h80 v-50 h60 v90 h50 V470 h90 v130 h70 V520 h110 v-40 h40 v120 h80 V430 h120 v170 h60 V540 h90 V480 h70 v120 h90 V500 h120 v100 h80 V540 h110 V900 H0z"/>
   <!-- 近くのビル：屋上にアンテナ -->
-  <g fill="#a49e89">
+  <g fill="#c4c1b5">
     <path d="M120 900 V640 h160 l16 -14 l20 16 V900z"/>
     <path d="M820 900 V470 h260 V900z"/>
     <path d="M1240 900 V620 h120 l20 -20 l16 22 h40 V900z"/>
   </g>
-  <g stroke="#a49e89" stroke-width="5" fill="none">
+  <g stroke="#c4c1b5" stroke-width="5" fill="none">
     <path d="M950 470 V300 M926 470 L950 350 L974 470 M934 420 h32 M940 390 h20"/>
   </g>
   <circle cx="950" cy="296" r="6" fill="#c8432b"/>
