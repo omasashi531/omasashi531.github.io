@@ -8,50 +8,53 @@
 <meta property="og:title" content="LAST LIFE LOG — radio from the end of the world">
 <meta property="og:description" content="文明が終わったあとの世界から、ひとりの少女が毎日の記録を音楽にして放送しています。作業・勉強・リラックスのためのBGMチャンネル。">
 <meta property="og:site_name" content="LAST LIFE LOG">
-<meta name="theme-color" content="#eef0f0">
+<meta name="theme-color" content="#dad5c3">
 <link rel="icon" href="img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="home">
 <header id="site-header"></header>
-<main>
+<main class="wrap">
 <section class="hero">
-  <div class="hero-art">
-    <img src="img/hero.svg" alt="霧の朝の廃墟の街。古いビルの屋上にアンテナが立っている">
-    <img src="img/hero.jpg" alt="" onerror="this.remove()">
-  </div>
-  <div class="wrap">
-    <p class="hero-caption label" id="hero-caption"><span>Signal searching</span><span></span></p>
-    <div class="hero-title">
-      <h1>Last Life Log</h1>
-      <p>radio from the end of the world</p>
+  <div class="frame">
+    <div class="hero-bar" id="hero-bar"><span class="label sq">受信映像</span><span class="label">Signal searching</span></div>
+    <div class="hero-art">
+      <img src="img/hero.svg" alt="霧の中の廃墟の街。古いビルの屋上にアンテナが立っている">
+      <img src="img/hero.jpg" alt="" onerror="this.remove()">
     </div>
   </div>
+  <div class="hero-title">
+    <h1 data-type data-glitch>Last Life Log</h1>
+    <p class="label">radio from the end of the world</p>
+  </div>
 </section>
 
-<section class="intro wrap reveal">
-  <p class="open">こちら、LAST LIFE LOG。</p>
-  <p>文明が終わったあとの世界に、ひとりの少女が生きている。<br class="pc">
-  彼女は毎日、見たもの・したこと・感じたことを短い記録に残し、<br class="pc">
-  それを音楽にして、まだ誰かが聴いているかもしれない電波に流している。</p>
-  <p>このチャンネルの動画は、その放送の1日分。<br class="pc">
-  作業・勉強・リラックスのための、静かな音楽です。</p>
-  <p class="en">A girl lives on after the end of civilization. Every day she turns what she saw, did and felt into a short log, makes it into music, and sends it out to anyone who might still be listening.</p>
+<section class="intro reveal">
+  <p class="label sq">送信者からのメッセージ</p>
+  <div class="intro-body">
+    <p>こちら、LAST LIFE LOG。</p>
+    <p>わたしは、終わってしまった世界で暮らしています。<br class="pc">
+    昼は街を歩いて、夜は屋上から、その日のことを音楽にして流しています。</p>
+    <p>返事は、まだ一度もありません。<br class="pc">
+    それでも、誰かが聴いていると思うことにしています。<br class="pc">
+    もし届いていたら、作業のおともにでもしてください。</p>
+    <p class="en">This is LAST LIFE LOG. I live in a world that has already ended. By day I walk the town; by night, from the rooftop, I turn the day into music and send it out. No reply has come yet. Still, I choose to believe someone is listening. If this reaches you, let it keep you company while you work.</p>
+  </div>
 </section>
 
-<section class="sec wrap">
-  <div class="sec-head"><h2>Logs</h2><a class="more" href="logs.html">View all →</a></div>
-  <div class="cards" id="home-logs"></div>
+<section class="sec">
+  <div class="sec-head"><h2 data-glitch>Logs</h2><span class="rule"></span><a class="label band" href="logs.html">All logs →</a></div>
+  <div class="archive" id="home-archive"></div>
 </section>
 
-<div class="wrap"><nav class="gates" aria-label="入口">
-  <a class="gate" href="world.html"><strong>World</strong><span>この世界のこと</span></a>
-  <a class="gate" href="https://www.youtube.com/@lastlifelog" target="_blank" rel="noopener"><strong>YouTube</strong><span>放送を聴く</span></a>
-  <a class="gate" href="links.html"><strong>Links</strong><span>リンク・お問い合わせ</span></a>
-</nav></div>
+<ul class="gates">
+  <li><a class="band" href="world.html">World<small>この世界のこと</small></a></li>
+  <li><a class="band" href="https://www.youtube.com/@lastlifelog" target="_blank" rel="noopener">YouTube<small>放送を聴く</small></a></li>
+  <li><a class="band" href="links.html">Links<small>リンク・お問い合わせ</small></a></li>
+</ul>
 </main>
 <footer id="site-footer"></footer>
 <script src="data/logs.js"></script>
