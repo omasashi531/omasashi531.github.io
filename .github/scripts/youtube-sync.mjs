@@ -27,17 +27,40 @@ async function findChannelId() {
   });
   if (!res.ok) throw new Error(`チャンネルのページを開けませんでした（${res.status}）`);
   const html = await res.text();
-  const m = html.match(/"(?:externalId|channelId)":"(UC[\w-]{22})"/) || html.match(/youtube\.com\/channel\/(UC[\w-]{22})/);
+  // ページ自身のチャンネルを指す場所から順に探す（ほかのチャンネルのIDを拾わないように）
+  const m = html.match(/<link rel="canonical" href="https:\/\/www\.youtube\.com\/channel\/(UC[\w-]{22})"/)
+    || html.match(/"externalId":"(UC[\w-]{22})"/)
+    || html.match(/<meta itemprop="identifier" content="(UC[\w-]{22})"/);
   if (!m) throw new Error("チャンネルIDが見つかりませんでした");
   return m[1];
+}
+
+// 少し待つ
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// 新着一覧（RSS）を読む。YouTube側でたまに404になるので、2種類の場所を、間をあけて何回か試す
+async function fetchFeed(id) {
+  const urls = [
+    `https://www.youtube.com/feeds/videos.xml?channel_id=${id}`,
+    `https://www.youtube.com/feeds/videos.xml?playlist_id=UU${id.slice(2)}`, // チャンネルの「アップロード動画」
+  ];
+  const errors = [];
+  for (let round = 0; round < 3; round++) {
+    for (const url of urls) {
+      const res = await fetch(url, { headers: { "user-agent": "Mozilla/5.0 (last-life-log site sync)" } });
+      if (res.ok) return res.text();
+      errors.push(`${res.status}`);
+    }
+    await wait(5000 * (round + 1));
+  }
+  throw new Error(`新着一覧を読めませんでした（${errors.join(", ")}）`);
 }
 
 async function readFeed() {
   if (process.env.FEED_FILE) return readFileSync(process.env.FEED_FILE, "utf8");
   const id = await findChannelId();
-  const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${id}`);
-  if (!res.ok) throw new Error(`新着一覧を読めませんでした（${res.status}）`);
-  return res.text();
+  report(`チャンネルID：${id}`);
+  return fetchFeed(id);
 }
 
 // RSSから { 番号: 動画ID } を作る（同じ番号が複数あれば、いちばん古い動画を使う）
@@ -77,7 +100,14 @@ function fillLogs(text, videos) {
   return { text, changed };
 }
 
-const xml = await readFeed();
+let xml;
+try {
+  xml = await readFeed();
+} catch (e) {
+  // 1時間後にまた試すので、ここでは「注意」として止める（毎時間の失敗メールを防ぐ）
+  report(`::warning::${e.message}。次の回（1時間後）にもう一度試します。`);
+  process.exit(0);
+}
 const videos = videosByLog(xml);
 report(`YouTubeで見つかったLOGの動画：${Object.keys(videos).length}本`);
 const before = readFileSync(LOGS_FILE, "utf8");
