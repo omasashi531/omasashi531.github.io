@@ -19,7 +19,7 @@ window.LLL_LOGS = [
       en: "A morning when the town sank into white mist. Dew on the rusted rails. When the fog lifts, I'll walk somewhere far."
     },
     diary: { ja: "", en: "" },
-    youtube: "W73Z9By4pQ0",
+    youtube: "",
     image: ""
   },
   {
