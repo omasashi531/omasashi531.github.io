@@ -284,7 +284,32 @@
       a.href = "mailto:" + addr;
       var t = a.querySelector(".mail-text");
       if (t) t.textContent = addr;
+      // メールアプリが入っていない端末では何も起きないので、押したらアドレスもコピーして知らせる
+      a.addEventListener("click", function () {
+        copyText(addr);
+        if (!t) return;
+        t.textContent = "アドレスをコピーしました。メールアプリが開かないときは、貼り付けて送ってください";
+        clearTimeout(a._timer);
+        a._timer = setTimeout(function () { t.textContent = addr; }, 5000);
+      });
     });
+  }
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).catch(function () { copyFallback(text); });
+    } else {
+      copyFallback(text);
+    }
+  }
+  function copyFallback(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    ta.remove();
   }
 
   document.addEventListener("DOMContentLoaded", function () {
