@@ -18,7 +18,7 @@ window.LLL_LOGS = [
       ja: "街が白い靄に沈む朝。錆びた線路に朝露。霧が晴れたら、遠くまで歩くと決めた。",
       en: "A morning when the town sank into white mist. Dew on the rusted rails. When the fog lifts, I'll walk somewhere far."
     },
-    diary: { ja: "", en: "" },
+    diary: { ja: "今朝は、街ぜんぶが白い靄に沈んでいた。\n錆びた線路の上にも、ちゃんと朝露が光っていた。\n誰もいない朝は静かで、少しだけ寒い。\n霧が晴れたら、今日はもう少し遠くまで歩いてみる。", en: "This morning, the whole city was sunk in white mist.\nEven on the rusted rails, the dew was shining.\nA morning with no one around is quiet, and a little cold.\nWhen the fog clears, I'll walk a little farther today." },
     youtube: "W73Z9By4pQ0",
     image: ""
   },
