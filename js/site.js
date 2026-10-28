@@ -46,7 +46,9 @@
   // 背景画像があれば画像、なければ「NO SIGNAL」
   function logVisual(l) {
     if (l.image) return '<img src="' + esc(l.image) + '" alt="LOG.' + esc(l.id) + " " + esc(l.place.ja) + '" loading="lazy">';
-    if (l.youtube) return '<img src="https://i.ytimg.com/vi/' + esc(l.youtube) + '/maxresdefault.jpg" alt="" loading="lazy">';
+    // YouTubeのサムネイル（大きいサイズが無い動画は、ふつうのサイズに切り替える）
+    if (l.youtube) return '<img src="https://i.ytimg.com/vi/' + esc(l.youtube) + '/maxresdefault.jpg" alt="LOG.' + esc(l.id) + " " + esc(l.place.ja) + '" loading="lazy"' +
+      ' onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + esc(l.youtube) + '/hqdefault.jpg\'">';
     return '<div class="ph"><span>LOG.' + esc(l.id) + "</span></div>";
   }
 
