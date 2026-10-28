@@ -97,8 +97,9 @@
           '<a class="go band" href="log.html?id=' + esc(l.id) + '">記録を読む →</a></div>'
       };
     });
+    // 読めない記録は、いつも一覧のいちばん上に置く（その下に、新しい順のLOG）
     if (withBroken) {
-      rows.push({ broken: true, html: '<span class="no">--</span><span class="ttl">░░░ データ破損</span><span class="day">DAY ???</span>' });
+      rows.unshift({ broken: true, html: '<span class="no">--</span><span class="ttl">░░░ データ破損</span><span class="day">DAY ???</span>' });
     }
     return rows;
   }
