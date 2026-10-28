@@ -56,10 +56,25 @@ async function fetchFeed(id) {
   throw new Error(`新着一覧を読めませんでした（${errors.join(", ")}）`);
 }
 
+// YouTube Data API（APIキーだけで使える、公開情報の読み取り）で、アップロード動画の一覧を読む
+// 結果はRSSと同じ形（<entry>…）にして、あとの処理を共通にする
+async function fetchByApi(id, key) {
+  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UU${id.slice(2)}&key=${key}`;
+  const res = await fetch(url);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(`YouTube APIで読めませんでした（${res.status} ${data.error?.message || ""}）`);
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  return (data.items || []).map((it) =>
+    `<entry><yt:videoId>${it.snippet.resourceId.videoId}</yt:videoId><title>${esc(it.snippet.title)}</title></entry>`
+  ).join("");
+}
+
 async function readFeed() {
   if (process.env.FEED_FILE) return readFileSync(process.env.FEED_FILE, "utf8");
   const id = await findChannelId();
   report(`チャンネルID：${id}`);
+  // APIキー（GitHubのSecrets「YOUTUBE_API_KEY」）があれば、そちらを使う（確実）
+  if (process.env.YOUTUBE_API_KEY) return fetchByApi(id, process.env.YOUTUBE_API_KEY);
   return fetchFeed(id);
 }
 
