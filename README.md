@@ -16,3 +16,4 @@ LAST LIFE LOG の公式サイト（https://lastlifelog.com ）。GitHub Pages �
 | `style.css` / `js/site.js` | 見た目 / 共通のプログラム |
 
 - 動画ファイルは置かない（YouTubeを埋め込む）。
+- **YouTubeの動画は自動で入る**：`.github/workflows/youtube-sync.yml` が1時間に1回、チャンネルの新着を見て、タイトルに「LOG.004」などの番号がある動画を、同じ番号のLOGに入れる（youtube が空のときだけ。ショートは使わない）。

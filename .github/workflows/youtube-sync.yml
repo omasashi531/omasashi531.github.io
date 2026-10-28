@@ -1,0 +1,47 @@
+# YouTubeに公開されたLOGの動画を、サイトに自動で入れる
+# ・1時間に1回、自動で動く（公開リポジトリなので、GitHub Actions の利用は無料）
+# ・Actions →「YouTubeの動画をサイトに入れる」→ Run workflow で、すぐ動かすこともできる
+name: YouTubeの動画をサイトに入れる
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: youtube-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: YouTubeの新着を見て、data/logs.js を更新
+        run: node .github/scripts/youtube-sync.mjs
+
+      - name: 変わっていたら保存して、サイトを更新
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "変更なし"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/logs.js
+          git commit -m "YouTubeの動画をLOGに自動で追加"
+          git push
+          # 自動で保存した変更でも、サイトの公開をやり直すように頼む
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "公開のやり直しを頼めませんでした（次の更新で反映されます）"
