@@ -92,8 +92,8 @@
           '<div class="panel-head"><span class="label sq">LOG.' + esc(l.id) + '</span><span class="label">DAY ' + esc(l.day) + "</span></div>" +
           '<div class="panel-img">' + logVisual(l) + "</div>" +
           '<div class="panel-body"><h3>' + esc(l.place.ja) + "</h3>" +
-          '<p class="panel-meta label"><span>' + esc(l.place.en) + "</span><span>" + esc(l.weather.en) + "</span><span>受信 " + esc(fmtDate(l.date)) + "</span></p>" +
-          "<p>" + esc(l.summary.ja) + '<span class="en">' + esc(l.summary.en) + "</span></p>" +
+          '<p class="panel-meta label">' + (l.place.en ? "<span>" + esc(l.place.en) + "</span>" : "") + "<span>" + esc(l.weather.en || l.weather.ja) + "</span><span>受信 " + esc(fmtDate(l.date)) + "</span></p>" +
+          "<p>" + esc(l.summary.ja) + (l.summary.en ? '<span class="en">' + esc(l.summary.en) + "</span>" : "") + "</p>" +
           '<a class="go band" href="log.html?id=' + esc(l.id) + '">記録を読む →</a></div>'
       };
     });
@@ -169,7 +169,7 @@
       '<header class="log-head"><p class="label sq">記録データ // LOG.' + esc(l.id) + '</p><h1 data-glitch>' + esc(l.place.ja) + "</h1></header>" +
       '<dl class="log-meta">' +
       '<div><dt class="label">Day</dt><dd>' + esc(l.day) + "</dd></div>" +
-      '<div><dt class="label">Place</dt><dd>' + esc(l.place.en) + "</dd></div>" +
+      '<div><dt class="label">Place</dt><dd>' + esc(l.place.en || l.place.ja) + "</dd></div>" +
       '<div><dt class="label">Weather</dt><dd>' + esc(l.weather.ja) + "</dd></div>" +
       '<div><dt class="label">Received</dt><dd>' + esc(fmtDate(l.date)) + "</dd></div></dl>" +
       '<div class="media frame"><div class="hero-bar"><span class="label sq">受信映像</span><span class="label">LOG.' + esc(l.id) + '</span></div><div class="video">' + media + "</div></div>" +

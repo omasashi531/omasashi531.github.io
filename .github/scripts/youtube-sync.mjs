@@ -59,13 +59,14 @@ async function fetchFeed(id) {
 // YouTube Data API（APIキーだけで使える、公開情報の読み取り）で、アップロード動画の一覧を読む
 // 結果はRSSと同じ形（<entry>…）にして、あとの処理を共通にする
 async function fetchByApi(id, key) {
-  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UU${id.slice(2)}&key=${key}`;
+  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=UU${id.slice(2)}&key=${key}`;
   const res = await fetch(url);
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(`YouTube APIで読めませんでした（${res.status} ${data.error?.message || ""}）`);
   const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   return (data.items || []).map((it) =>
-    `<entry><yt:videoId>${it.snippet.resourceId.videoId}</yt:videoId><title>${esc(it.snippet.title)}</title></entry>`
+    `<entry><yt:videoId>${it.snippet.resourceId.videoId}</yt:videoId><title>${esc(it.snippet.title)}</title>` +
+    `<published>${it.contentDetails?.videoPublishedAt || it.snippet.publishedAt || ""}</published></entry>`
   ).join("");
 }
 
@@ -84,13 +85,15 @@ function videosByLog(xml) {
   const entries = xml.split("<entry>").slice(1);
   for (const e of entries.reverse()) { // RSSは新しい順なので、古い順に見る
     const vid = (e.match(/<yt:videoId>([\w-]{11})<\/yt:videoId>/) || [])[1];
-    const title = ((e.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "").trim();
+    const title = ((e.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "").trim()
+      .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
+    const published = ((e.match(/<published>([^<]*)<\/published>/) || [])[1] || "").trim();
     const num = (title.match(/LOG\s*[.．・]?\s*(\d{1,4})/i) || [])[1];
     if (!vid || !num) continue;
     // ショート（#shorts）は本編ではないので使わない
     if (/#shorts/i.test(title)) continue;
     const id = String(Number(num)).padStart(3, "0");
-    if (!found[id]) found[id] = { vid, title };
+    if (!found[id]) found[id] = { vid, title, published };
   }
   return found;
 }
@@ -107,7 +110,13 @@ function fillLogs(text, videos) {
     const m = block.match(/youtube:\s*"([^"]*)"/);
     if (!m) { report(`- LOG.${id}：youtube の欄が見つかりませんでした`); continue; }
     if (m[1]) continue; // すでに入っている
-    const newBlock = block.replace(m[0], `youtube: "${v.vid}"`);
+    let newBlock = block.replace(m[0], `youtube: "${v.vid}"`);
+    // 公開日を、YouTubeで本当に公開された日（日本時間）に直す
+    const t = Date.parse(v.published);
+    if (t) {
+      const day = new Date(t + 9 * 3600e3).toISOString().slice(0, 10);
+      newBlock = newBlock.replace(/date:\s*"[^"]*"/, `date: "${day}"`);
+    }
     text = text.slice(0, start) + newBlock + text.slice(end);
     report(`- LOG.${id}：動画を追加しました → https://youtu.be/${v.vid}（${v.title}）`);
     changed++;
