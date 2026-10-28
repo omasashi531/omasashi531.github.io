@@ -276,7 +276,18 @@
     items.forEach(function (e) { io.observe(e); });
   }
 
+  // メールアドレスは、迷惑メールの業者に集められにくいように、ページを開いたときに組み立てる
+  function setupMail() {
+    document.querySelectorAll("[data-mail]").forEach(function (a) {
+      var addr = a.getAttribute("data-mail") + "@" + "lastlifelog.com";
+      a.href = "mailto:" + addr;
+      var t = a.querySelector(".mail-text");
+      if (t) t.textContent = addr;
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    setupMail();
     var page = document.body.getAttribute("data-page");
     // 背景の電波の輪・砂ぼこり（ページのいちばん後ろ）
     var atmos = document.createElement("div");
