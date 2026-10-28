@@ -25,15 +25,15 @@ window.LLL_LOGS = [
   {
     id: "002",
     day: 416,
-    date: "2026-10-31",
+    date: "2026-10-28",
     place:   { ja: "廃遊園地", en: "The abandoned amusement park" },
     weather: { ja: "快晴", en: "Clear sky" },
     summary: {
       ja: "はじめての霜。メリーゴーランドの馬が白くなっていた。冬が近い。",
       en: "The first frost. The carousel horses had turned white. Winter is close."
     },
-    diary: { ja: "", en: "" },
-    youtube: "",
+    diary: { ja: "今朝、はじめて霜が降りた。\nメリーゴーランドの馬が、みんな白くなっていた。\n草をふむと、しゃりっと鳴る。冬が来るけど、今日はきれいだった。", en: "LOG.002 / DAY 416 / Abandoned amusement park / Clear, frost\nThis morning, the first frost came.\nThe carousel horses had all turned white.\nThe grass crunched under my feet. Winter is coming, but today was beautiful." },
+    youtube: "EYu1WXStoCs",
     image: ""
   },
   {
