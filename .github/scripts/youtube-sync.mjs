@@ -82,7 +82,8 @@ function parseDescription(desc) {
     }
     return { lines: out, next: i + 1 };
   };
-  const drop = (x) => !/^こちら、/.test(x) && !/^This is /i.test(x);
+  // 決まり文句と、英語の見出し（「LOG.002 / DAY 416 / …」）は日記に入れない
+  const drop = (x) => !/^こちら、/.test(x) && !/^This is /i.test(x) && !/^LOG\s*[.．]?\s*\d+\s*[／/]/i.test(x);
   // 日本語の日記（「今日の放送はここまで。」まで。なければ空行まで）
   const jaPart = block(h + 1, /^今日の放送はここまで/);
   // 英語の日記（日本語のあとのまとまり。「End of today's broadcast.」まで）

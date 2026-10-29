@@ -32,7 +32,7 @@ window.LLL_LOGS = [
       ja: "はじめての霜。メリーゴーランドの馬が白くなっていた。冬が近い。",
       en: "The first frost. The carousel horses had turned white. Winter is close."
     },
-    diary: { ja: "今朝、はじめて霜が降りた。\nメリーゴーランドの馬が、みんな白くなっていた。\n草をふむと、しゃりっと鳴る。冬が来るけど、今日はきれいだった。", en: "LOG.002 / DAY 416 / Abandoned amusement park / Clear, frost\nThis morning, the first frost came.\nThe carousel horses had all turned white.\nThe grass crunched under my feet. Winter is coming, but today was beautiful." },
+    diary: { ja: "今朝、はじめて霜が降りた。\nメリーゴーランドの馬が、みんな白くなっていた。\n草をふむと、しゃりっと鳴る。冬が来るけど、今日はきれいだった。", en: "This morning, the first frost came.\nThe carousel horses had all turned white.\nThe grass crunched under my feet. Winter is coming, but today was beautiful." },
     youtube: "EYu1WXStoCs",
     image: ""
   },
