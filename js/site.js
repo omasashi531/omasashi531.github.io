@@ -106,7 +106,7 @@
 
   // ---------- 共通部分 ----------
   function renderChrome(page, published) {
-    var nav = [["logs.html", "Logs", "logs"], ["world.html", "World", "world"], ["links.html", "Links", "links"]];
+    var nav = [["logs.html", "Logs", "logs"], ["radio.html", "Radio", "radio"], ["world.html", "World", "world"], ["links.html", "Links", "links"]];
     var header = document.getElementById("site-header");
     if (header) {
       var latest = published[0];
