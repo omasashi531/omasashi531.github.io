@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radio | LAST LIFE LOG</title>
+<meta name="description" content="LAST LIFE LOG の受信機。これまでの放送を、順番にずっと流します。">
+<meta property="og:title" content="Radio | LAST LIFE LOG">
+<meta property="og:description" content="LAST LIFE LOG の受信機。これまでの放送を、順番にずっと流します。">
+<meta property="og:site_name" content="LAST LIFE LOG">
+<meta name="theme-color" content="#f8f7f3">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="radio">
+<header id="site-header"></header>
+<main class="wrap page">
+<div class="sec-head"><h1 data-glitch>Radio</h1><span class="rule"></span><span class="label">受信機</span></div>
+<p class="lead">これまでの放送を、新しいものから順番に、ずっと流しつづけます。作業のおともにどうぞ。<span class="en">Every broadcast so far, from the newest, on an endless loop. Keep it on while you work.</span></p>
+
+<section class="radio" id="radio">
+  <div class="radio-main frame">
+    <div class="hero-bar"><span class="label sq" id="rd-status">待機中 // Standby</span><span class="label" id="rd-day">DAY ---</span></div>
+    <div class="radio-screen">
+      <!-- 受信前：入口の絵とボタン。受信後：ここに YouTube のプレーヤーが入る -->
+      <div class="radio-standby" id="rd-standby">
+        <img src="img/hero.jpg" alt="">
+        <button type="button" class="band radio-start" id="rd-start">▶ 受信を開始する<small>Start receiving</small></button>
+        <p class="label radio-tuning">周波数を合わせています…</p>
+      </div>
+      <div id="rd-player"></div>
+    </div>
+    <div class="radio-controls">
+      <button type="button" class="band" id="rd-prev" disabled>← 前の放送</button>
+      <button type="button" class="band" id="rd-toggle" disabled>一時停止</button>
+      <button type="button" class="band" id="rd-next" disabled>次の放送 →</button>
+    </div>
+  </div>
+
+  <div class="radio-side">
+    <p class="label sq">受信中の記録</p>
+    <h2 class="radio-place" id="rd-place" data-glitch>――</h2>
+    <p class="label radio-meta" id="rd-meta"></p>
+    <div class="radio-diary" id="rd-diary"><p class="radio-wait">受信を開始すると、ここに日記が届きます。</p></div>
+    <p class="label sq radio-queue-head">放送の順番</p>
+    <ul class="rows" id="rd-queue"></ul>
+  </div>
+</section>
+<p class="radio-note">※ 動画はYouTubeの埋め込みです。スマホでは画面を消すと止まります。<span class="en">Videos are embedded from YouTube. On phones, playback stops when the screen turns off.</span></p>
+</main>
+<footer id="site-footer"></footer>
+<script src="data/logs.js"></script>
+<script src="data/world.js"></script>
+<script src="js/site.js"></script>
+<script src="js/radio.js"></script>
+</body>
+</html>

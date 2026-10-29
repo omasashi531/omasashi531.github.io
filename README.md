@@ -8,6 +8,7 @@ LAST LIFE LOG の公式サイト（https://lastlifelog.com ）。GitHub Pages �
 | `logs.html` / `log.html?id=001` | 放送記録の一覧 / 各LOGのページ |
 | `world.html` | 世界観 |
 | `links.html` | リンク |
+| `radio.html` / `js/radio.js` | 受信機（公開済みのLOGの動画を、新しい順にずっと流す。YouTube の IFrame Player API） |
 | `privacy.html` | プライバシーポリシー（Googleの同意画面で使用。**場所を変えない**） |
 | `data/logs.js` | **LOGのデータ**。新しいLOGはここに1つ足すだけ。公開日（date）が来ると自動で表示 |
 | `data/world.js` | 世界観のデータ。`unlock` のLOGが公開されると表示（ノイズは LOG.004 から、北の放送塔は未公開） |

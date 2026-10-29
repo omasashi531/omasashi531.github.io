@@ -202,6 +202,36 @@ button { font: inherit; color: inherit; }
 .gates .band { justify-content: space-between; padding: 24px 16px; font-size: 15px; letter-spacing: .26em; }
 .gates .band small { font: 400 11px var(--ja); letter-spacing: .12em; text-transform: none; opacity: .75; }
 
+/* ---------- 受信機（Radio） ---------- */
+.radio { display: grid; gap: 40px; margin-bottom: 40px; }
+@media (min-width: 960px) { .radio { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 48px; } }
+.radio-screen { position: relative; aspect-ratio: 16 / 9; margin: 10px 0 12px; background: var(--panel); overflow: hidden; }
+.radio-screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.radio-standby { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; align-content: center; gap: 14px; }
+.radio-standby[hidden] { display: none; }
+.radio-standby img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.6) brightness(.55); }
+.radio-start { position: relative; flex-direction: column; gap: 2px; padding: 16px 32px; font-size: 15px; letter-spacing: .2em; color: var(--inv); border: 1px solid var(--inv); background: rgba(74, 71, 64, .35); cursor: pointer; }
+.radio-start small { font: 400 10px var(--sans); letter-spacing: .3em; opacity: .8; }
+.radio-start::before { background: var(--inv); }
+.radio-start:hover, .radio-start:focus-visible { color: var(--ink); }
+.radio-tuning { position: relative; color: var(--inv); animation: pulse 2.4s ease-in-out infinite; }
+.radio-controls { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+.radio-controls .band { border: 1px solid var(--line); background: none; cursor: pointer; }
+.radio-controls .band:disabled { opacity: .4; cursor: default; }
+.radio-controls .band:disabled::before { display: none; }
+.radio-place { margin: 10px 0 4px; font: 500 22px/1.5 var(--ja); letter-spacing: .1em; }
+.radio-meta { margin-bottom: 20px; }
+.radio-diary { min-height: 220px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 32px; font-size: 14px; line-height: 2.1; }
+.radio-diary p { margin: 0; min-height: 1em; }
+.radio-diary .fixed { color: var(--ink-2); }
+.radio-diary .en { margin-top: 16px; }
+.radio-wait { color: var(--ink-2); }
+.radio-queue-head { margin-bottom: 8px; }
+.radio-note { font-size: 12px; color: var(--ink-2); }
+/* 受信中は、ヘッダーの ON AIR を少し強く光らせる */
+body.is-receiving .status b::before { box-shadow: 0 0 0 4px rgba(200, 67, 43, .18); }
+@media (prefers-reduced-motion: reduce) { .radio-tuning { animation: none; } }
+
 /* ---------- LOGの個別ページ ---------- */
 .log-head { margin-bottom: 32px; }
 .log-head h1 { margin: 10px 0 0; font: 400 clamp(24px, 4vw, 34px)/1.5 var(--ja); letter-spacing: .12em; }
