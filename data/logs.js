@@ -39,15 +39,15 @@ window.LLL_LOGS = [
   {
     id: "003",
     day: 423,
-    date: "2026-11-07",
+    date: "2026-10-31",
     place:   { ja: "風車の丘", en: "The windmill hill" },
     weather: { ja: "秋晴れ", en: "Clear autumn sky" },
     summary: {
       ja: "雲ひとつない高い空。止まった風車の下で寝ころんだ。もう少し遠くまで歩ける気がする。",
       en: "A high sky without a single cloud. I lay down under the stopped windmill. I feel like I can walk a little farther."
     },
-    diary: { ja: "", en: "" },
-    youtube: "",
+    diary: { ja: "空は高く、風のつよい日だった。止まった風車が、ときどきぎいと鳴った。\n返事みたいで、少し笑った。ノイズは毛をふくらませて、わたしの足元にいた。\n乾いた草に寝ころんだら、もう少し遠くまで歩ける気がした。", en: "The sky was high, and the wind was strong today. The stopped windmill creaked now and then.\nIt sounded like a reply, and I laughed a little. Noise stayed at my feet, fur puffed up.\nLying in the dry grass, I felt I could walk a little farther." },
+    youtube: "Wt_RzEsoUHU",
     image: ""
   }
 ];
