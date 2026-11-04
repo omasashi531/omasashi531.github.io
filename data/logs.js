@@ -49,5 +49,19 @@ window.LLL_LOGS = [
     diary: { ja: "空は高く、風のつよい日だった。止まった風車が、ときどきぎいと鳴った。\n返事みたいで、少し笑った。ノイズは毛をふくらませて、わたしの足元にいた。\n乾いた草に寝ころんだら、もう少し遠くまで歩ける気がした。", en: "The sky was high, and the wind was strong today. The stopped windmill creaked now and then.\nIt sounded like a reply, and I laughed a little. Noise stayed at my feet, fur puffed up.\nLying in the dry grass, I felt I could walk a little farther." },
     youtube: "Wt_RzEsoUHU",
     image: ""
+  },
+  {
+    id: "004",
+    day: 431,
+    date: "2026-11-04",
+    place:   { ja: "坂の下の古本屋", en: "" },
+    weather: { ja: "雨", en: "" },
+    summary: {
+      ja: "冬のはじまりは、雨だった。坂の下の古本屋で、小さなストーブに火を入れた。黒猫のノイズがかすれた声で鳴いて、わたしの膝で丸くなった。重い。",
+      en: "Winter began with rain. I lit a small stove in the old bookshop at the bottom of the hill. Noise gave a raspy meow and curled up on my lap. Heavy."
+    },
+    diary: { ja: "冬のはじまりは、雨だった。坂の下の古本屋で、小さなストーブに火を入れた。\n黒猫のノイズがかすれた声で鳴いて、わたしの膝で丸くなった。重い。\n知らない誰かの本を読みながら、この世界のことを少しだけ考えた。", en: "Winter began with rain. I lit a small stove in the old bookshop at the bottom of the hill.\nNoise gave a raspy meow and curled up on my lap. Heavy.\nReading a stranger's book, I thought a little about this world." },
+    youtube: "rDAAdoOlfr0",
+    image: ""
   }
 ];
