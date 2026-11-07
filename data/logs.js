@@ -63,5 +63,19 @@ window.LLL_LOGS = [
     diary: { ja: "冬のはじまりは、雨だった。坂の下の古本屋で、小さなストーブに火を入れた。\n黒猫のノイズがかすれた声で鳴いて、わたしの膝で丸くなった。重い。\n知らない誰かの本を読みながら、この世界のことを少しだけ考えた。", en: "Winter began with rain. I lit a small stove in the old bookshop at the bottom of the hill.\nNoise gave a raspy meow and curled up on my lap. Heavy.\nReading a stranger's book, I thought a little about this world." },
     youtube: "rDAAdoOlfr0",
     image: ""
+  },
+  {
+    id: "005",
+    day: 435,
+    date: "2026-11-07",
+    place:   { ja: "坂の上の歩道橋", en: "" },
+    weather: { ja: "晴れ", en: "" },
+    summary: {
+      ja: "やっと晴れた。数日続いた雨が嘘みたいだ。朝の空気は冷たくて、冬の匂いがした。ジャケットのファスナーを一番上まで上げる。吐く息が白い。",
+      en: "Finally, the sun came out. The days of rain feel like a lie now. The morning air was cold, and it smelled like winter. I zipped my jacket all the way up."
+    },
+    diary: { ja: "やっと晴れた。数日続いた雨が嘘みたいだ。\n朝の空気は冷たくて、冬の匂いがした。\nジャケットのファスナーを一番上まで上げる。吐く息が白い。\nこの世界にあと何回、こんな朝が来るんだろう。\n考えてもわからないから今はただ空を見ていることにした。", en: "Finally, the sun came out. The days of rain feel like a lie now.\nThe morning air was cold, and it smelled like winter.\nI zipped my jacket all the way up. My breath was white.\nHow many more mornings like this will this world have?\nI don't know, so today I decided to just look at the sky." },
+    youtube: "B2CiY5hj830",
+    image: ""
   }
 ];
