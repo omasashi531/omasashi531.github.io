@@ -4,6 +4,9 @@
 // unlock に LOG番号を書くと、そのLOGが公開された日から表示される。
 // unlock が null のものは、まだ表示しない（書き直すまで隠れたまま）。
 // unlock が "000" のものは、最初から表示する。
+// 表示された項目には「LOG.004 の放送で受信 →」というリンクが自動で付き、
+// そのLOGのページにも「この放送で分かったこと」として出る。
+// 文章の中の {reports} は、受信報告（YouTubeのコメント）の合計に置きかわる。
 // ===============================================================
 window.LLL_WORLD = [
   {
@@ -28,6 +31,16 @@ window.LLL_WORLD = [
     text: {
       ja: "彼女は毎日、見たもの・したこと・感じたことを短い記録にして、音楽にして電波に流している。誰かに届くと信じているけれど、返事はまだ一度もない。——このページを見ているあなたが、その「誰か」かもしれない。",
       en: "Every day she turns what she saw, did and felt into a short log, makes it into music and sends it out over the air. She believes it reaches someone, though no reply has ever come. — You, reading this, might be that someone."
+    }
+  },
+  {
+    key: "listeners",
+    unlock: "000",
+    label: "THE LISTENERS",
+    name: { ja: "受信者", en: "The listeners" },
+    text: {
+      ja: "この放送を受信した誰か。——つまり、あなた。\n放送が届いたら、YouTubeのコメント欄に「受信報告」を残せる。あなたのいる場所と、今日の天気を添えて。\nこれまでの受信報告は {reports} 件。彼女は、まだそれを知らない。",
+      en: "Someone who received this broadcast — that is, you.\nIf the signal reaches you, leave a reception report in the YouTube comments: where you are, and today's weather.\nReception reports so far: {reports}. She does not know about them yet."
     }
   },
   {

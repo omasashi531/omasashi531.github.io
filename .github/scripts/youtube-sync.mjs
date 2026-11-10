@@ -12,13 +12,16 @@
 //     同じ番号のLOGが無い → 新しく作る（絵はYouTubeのサムネイルを使う）
 //     同じ番号のLOGがある → 空の欄（動画・日記など）だけを埋める。手で書いた内容は消さない
 //   動画を初めて入れるときは、公開日をYouTubeで公開された日（日本時間）に直す
+// ・各LOGの動画のコメント数を読んで、data/reports.js に「受信報告」の数として書く
+//   （コメント本文は読まない・サイトにも載せない。数だけ）
 // 使い方：YOUTUBE_API_KEY=… node .github/scripts/youtube-sync.mjs
-//   お試し：ITEMS_FILE=APIの返事.json node .github/scripts/youtube-sync.mjs
+//   お試し：ITEMS_FILE=APIの返事.json STATS_FILE=コメント数の返事.json node .github/scripts/youtube-sync.mjs
 // ===============================================================
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 
 const CHANNEL_ID = process.env.CHANNEL_ID || "UCXAhPdphsnY6_ez3-jxC4dA"; // @lastlifelog
 const LOGS_FILE = "data/logs.js";
+const REPORTS_FILE = "data/reports.js";
 
 // 結果をGitHubの画面（Actionsのまとめ）にも出す
 function report(line) {
@@ -173,6 +176,66 @@ function sync(text, videos) {
   return { text, changed };
 }
 
+/* ---------- 受信報告（コメント）の数 ---------- */
+// data/logs.js の中身から { "004": "動画のID" } を作る
+function videoIdsInLogs(text) {
+  const out = {};
+  for (const m of text.matchAll(/id:\s*"(\d+)"[\s\S]*?youtube:\s*"([^"]*)"/g)) if (m[2]) out[m[1]] = m[2];
+  return out;
+}
+
+// YouTubeから、動画ごとのコメント数を読む（1回で50本まで）
+async function fetchCommentCounts(vids) {
+  const counts = {};
+  if (process.env.STATS_FILE) {
+    for (const it of JSON.parse(readFileSync(process.env.STATS_FILE, "utf8")).items || []) counts[it.id] = Number(it.statistics?.commentCount) || 0;
+    return counts;
+  }
+  const key = process.env.YOUTUBE_API_KEY;
+  if (!key) throw new Error("APIキー（Secrets の YOUTUBE_API_KEY）がありません");
+  for (let i = 0; i < vids.length; i += 50) {
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics&maxResults=50&id=${vids.slice(i, i + 50).join(",")}&key=${key}`;
+    const res = await fetch(url);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(`YouTube APIでコメント数を読めませんでした（${res.status} ${data.error?.message || ""}）`);
+    // コメントを止めている動画は commentCount が無いので、0件として数える
+    for (const it of data.items || []) counts[it.id] = Number(it.statistics?.commentCount) || 0;
+  }
+  return counts;
+}
+
+function reportsText(reports) {
+  return [
+    "// ===============================================================",
+    "// 受信報告（YouTubeのコメント）の数",
+    "// ---------------------------------------------------------------",
+    "// このファイルは、1時間に1回、自動で書きかえられる（手で直さない）。",
+    "// total = 全部のLOGの合計、logs = LOGごとの数",
+    "// ===============================================================",
+    `window.LLL_REPORTS = ${JSON.stringify(reports)};`,
+    "",
+  ].join("\n");
+}
+
+async function syncReports(logsText) {
+  const ids = videoIdsInLogs(logsText);
+  const counts = await fetchCommentCounts(Object.values(ids));
+  const logs = {};
+  let total = 0;
+  for (const id of Object.keys(ids).sort()) {
+    // YouTubeから返事が無かった動画（非公開にしたなど）は、数えない
+    if (counts[ids[id]] == null) continue;
+    logs[id] = counts[ids[id]];
+    total += logs[id];
+  }
+  const next = reportsText({ total, logs });
+  let before = "";
+  try { before = readFileSync(REPORTS_FILE, "utf8"); } catch {}
+  if (next === before) { report(`受信報告の数は変わっていません（合計 ${total}件）。`); return; }
+  writeFileSync(REPORTS_FILE, next);
+  report(`受信報告の数を更新しました（合計 ${total}件）。`);
+}
+
 let items;
 try {
   items = await fetchItems();
@@ -185,4 +248,11 @@ const videos = videosByLog(items);
 report(`YouTubeで見つかったLOGの動画：${Object.keys(videos).length}本`);
 const { text, changed } = sync(readFileSync(LOGS_FILE, "utf8"), videos);
 if (changed) writeFileSync(LOGS_FILE, text);
-report(changed ? `サイトのLOGを${changed}本更新しました。` : "サイトに変更はありませんでした。");
+report(changed ? `サイトのLOGを${changed}本更新しました。` : "サイトのLOGに変更はありませんでした。");
+
+// 受信報告の数。読めなかったときは、前の数のままにして次の回に任せる
+try {
+  await syncReports(text);
+} catch (e) {
+  report(`::warning::${e.message}。受信報告の数は前のままにして、次の回（1時間後）にもう一度試します。`);
+}

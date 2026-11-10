@@ -11,7 +11,11 @@
   var YT_CHANNEL = "https://www.youtube.com/@lastlifelog";
   var LOGS = window.LLL_LOGS || [];
   var WORLD = window.LLL_WORLD || [];
-  var REPLIES = 0; // 受信者からの返事の数（いまは0件。世界観の小ネタ）
+  var REPLIES = 0; // 彼女に届いた返事の数（いまは0件。世界観の小ネタ）
+  // 受信報告（YouTubeのコメント）の数。data/reports.js を1時間に1回、自動で書きかえている
+  // 彼女はこの報告を知らない、という設定なので「返信 0件」とは別に数える
+  var REPORTS = window.LLL_REPORTS || { total: 0, logs: {} };
+  function reportCount(id) { return (REPORTS.logs && REPORTS.logs[id]) || 0; }
   var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ---------- 小さな道具 ----------
@@ -73,13 +77,18 @@
       panel.classList.remove("is-swap"); void panel.offsetWidth; panel.classList.add("is-swap");
       setupGlitch(panel);
     }
+    // 「world.html#noise」のように、URLのうしろに名前が付いていたら、その行を最初に開く
+    var wanted = decodeURIComponent(location.hash.slice(1));
+    var start = -1;
+    if (wanted) rows.forEach(function (r, i) { if (!r.broken && r.key === wanted) start = i; });
     buttons.forEach(function (b) {
       var i = +b.getAttribute("data-i");
       b.addEventListener("mouseenter", function () { select(i); });
       b.addEventListener("focus", function () { select(i); });
       if (!rows[i].href) b.addEventListener("click", function () { select(i); });
     });
-    if (buttons.length) select(+buttons[0].getAttribute("data-i"));
+    if (start >= 0) select(start);
+    else if (buttons.length) select(+buttons[0].getAttribute("data-i"));
   }
 
   function logRows(list, withBroken) {
@@ -112,7 +121,7 @@
       var latest = published[0];
       header.innerHTML =
         '<nav class="nav"><a class="logo" href="index.html" data-glitch>Last Life Log</a>' +
-        '<p class="status"><b>On Air</b><span>' + (latest ? "DAY " + esc(latest.day) : "Signal searching") + "</span><span>返信 " + REPLIES + "件</span></p>" +
+        '<p class="status"><b>On Air</b><span>' + (latest ? "DAY " + esc(latest.day) : "Signal searching") + "</span><span>受信報告 " + esc(REPORTS.total || 0) + "件</span><span>返信 " + REPLIES + "件</span></p>" +
         '<ul class="menu">' + nav.map(function (n) {
           return '<li><a class="band" href="' + n[0] + '"' + (page === n[2] ? ' aria-current="page"' : "") + ">" + n[1] + "</a></li>";
         }).join("") + "</ul></nav>";
@@ -166,6 +175,20 @@
     var ja = l.diary && l.diary.ja ? l.diary.ja : l.summary.ja;
     var en = l.diary && l.diary.en ? l.diary.en : l.summary.en;
     var newer = published[idx - 1], older = published[idx + 1];
+    // このLOGの放送で、世界観のページに増えた記録（data/world.js の unlock がこのLOGのもの）
+    var found = WORLD.filter(function (w) { return w.unlock === l.id; });
+    var records = found.length
+      ? '<section class="records"><p class="label sq">この放送で分かったこと // New records</p><ul class="items">' + found.map(function (w) {
+          return '<li><a class="u" href="world.html#' + esc(w.key) + '">' + esc(w.name.ja) + '</a><span class="en">' + esc(w.name.en) + "</span></li>";
+        }).join("") + "</ul></section>"
+      : "";
+    // 受信報告：YouTubeのコメント欄が「報告を送る場所」。件数は1時間に1回、自動で更新される
+    var report = l.youtube
+      ? '<section class="report frame"><div class="hero-bar"><span class="label sq">受信報告 // Reception reports</span><span class="label">' + esc(reportCount(l.id)) + " 件</span></div>" +
+        '<div class="report-body"><p>この放送が届いたら、受信報告を送ってください。あなたのいる場所と、今日の天気を添えて。<br>彼女はまだ、誰かが聴いていることを知りません。' +
+        '<span class="en">If this signal reached you, send a reception report — where you are, and today\'s weather. She does not know yet that anyone is listening.</span></p>' +
+        '<a class="go band" href="https://www.youtube.com/watch?v=' + esc(l.youtube) + '" target="_blank" rel="noopener">受信報告を送る（YouTubeのコメント欄へ）→</a></div></section>'
+      : "";
     el.innerHTML =
       '<header class="log-head"><p class="label sq">記録データ // LOG.' + esc(l.id) + '</p><h1 data-glitch>' + esc(l.place.ja) + "</h1></header>" +
       '<dl class="log-meta">' +
@@ -178,6 +201,7 @@
       '<p class="open">こちら、LAST LIFE LOG。</p>' + para(ja) +
       '<p class="close">今日の放送はここまで。</p>' +
       '<div class="diary-en">' + para(en) + "</div></article>" +
+      records + report +
       '<nav class="pager">' +
       (older ? '<a class="band" href="log.html?id=' + esc(older.id) + '">← LOG.' + esc(older.id) + "</a>" : "<span></span>") +
       '<a class="band" href="logs.html">All logs</a>' +
@@ -197,12 +221,19 @@
       var items = w.items ? '<ul class="items">' + w.items.ja.map(function (s, i) {
         return "<li>" + esc(s) + '<span class="en">' + esc(w.items.en[i]) + "</span></li>";
       }).join("") + "</ul>" : "";
+      // どのLOGの放送で分かった記録か（最初から分かっているものには出さない）
+      var from = w.unlock !== "000"
+        ? '<a class="go band" href="log.html?id=' + esc(w.unlock) + '">LOG.' + esc(w.unlock) + " の放送で受信 →</a>"
+        : "";
+      // 文章の中の {reports} は、受信報告の合計に置きかえる
+      var fill = function (t) { return para(t).replace(/\{reports\}/g, esc(REPORTS.total || 0)); };
       return {
+        key: w.key,
         html: '<span class="no">' + pad2(n) + '</span><span class="ttl">' + esc(w.name.ja) + '</span><span class="day">' + esc(w.label) + "</span>",
         panel:
           '<div class="panel-head"><span class="label sq">' + esc(w.label) + '</span><span class="label">' + pad2(n) + "</span></div>" +
           '<div class="panel-body" style="padding-top:20px"><h3>' + esc(w.name.ja) + '<span class="en">' + esc(w.name.en) + "</span></h3>" +
-          para(w.text.ja) + items + '<p class="en">' + esc(w.text.en) + "</p></div>"
+          fill(w.text.ja) + items + '<div class="en">' + fill(w.text.en) + "</div>" + from + "</div>"
       };
     });
     el.classList.add("archive", "world-panel");
