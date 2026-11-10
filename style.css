@@ -246,6 +246,16 @@ body.is-receiving .status b::before { box-shadow: 0 0 0 4px rgba(200, 67, 43, .1
 .diary .open, .diary .close { color: var(--ink-2); }
 .diary .close { margin-bottom: 56px; }
 .diary-en { padding-top: 32px; border-top: 1px solid var(--line); color: var(--ink-2); font: 400 13.5px/2 var(--sans); letter-spacing: .03em; }
+/* 受信報告と、このLOGで分かった記録 */
+.records, .report { max-width: 580px; margin: 0 auto 56px; }
+.records .label { margin: 0 0 12px; }
+.records .items { margin-bottom: 0; }
+.report { margin-bottom: 96px; }
+.report-body { padding: 20px 4px 6px; font-size: 14px; line-height: 2.1; }
+.report-body p { margin: 0 0 16px; }
+.report .go, .world-panel .go { display: inline-flex; border: 1px solid var(--ink); }
+.world-panel .go { margin-top: 20px; }
+.world-panel .panel-body .en p { font: inherit; margin: 0 0 .4em; }
 .pager { display: flex; justify-content: space-between; gap: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
 
 /* ---------- 世界観 ---------- */
