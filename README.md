@@ -21,3 +21,4 @@ LAST LIFE LOG の公式サイト（https://lastlifelog.com ）。GitHub Pages �
 - **LOGはYouTubeから自動で作られる**：`.github/workflows/youtube-sync.yml` が1時間に1回、YouTube Data API（Secrets の `YOUTUBE_API_KEY`）でチャンネルの動画を見る。タイトルに「LOG.004」などの番号がある動画（ショートは除く）の説明文から、DAY・場所・天気・日記（日本語・英語）を読み、`data/logs.js` に新しいLOGを作る。すでにあるLOGは空の欄（動画・日記）だけ埋め、手で書いた内容は消さない。公開日はYouTubeで公開された日になる。絵はYouTubeのサムネイル（`image` を書けば、その画像が優先）。
 - **受信報告**：視聴者のYouTubeコメントを「この放送を受信した報告」として扱う（彼女は知らない設定なので、ヘッダーの「返信 0件」はそのまま）。同じ自動更新が各LOGの動画のコメント数を読み、`data/reports.js` に書く。ヘッダーに合計、LOGのページにそのLOGの数と「受信報告を送る」ボタン（YouTubeへ）、World の「受信者」に合計が出る。コメントの本文はサイトに載せない。数には自分のコメント・返信も入る。
 - **LOGと世界観のリンク**：`data/world.js` の `unlock` にLOG番号を書くと、World のその項目に「LOG.004 の放送で受信 →」が付き、LOGのページにも「この放送で分かったこと」として出る。`world.html#noise` のように、URLのうしろに `key` を付けるとその項目が開く。
+- **世界観の記録の自動公開**：動画の説明文に「📡 新しい記録を受信：北の放送塔」の行があると、同じ自動更新が `data/world.js` の同じ名前（`name.ja`）の記録の `unlock` を、そのLOG番号にする（`unlock: null` のものだけ。手で入れた番号は変えない）。この行はアプリの「今回明かす記録」で自動で入る。
