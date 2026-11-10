@@ -12,6 +12,8 @@
 //     同じ番号のLOGが無い → 新しく作る（絵はYouTubeのサムネイルを使う）
 //     同じ番号のLOGがある → 空の欄（動画・日記など）だけを埋める。手で書いた内容は消さない
 //   動画を初めて入れるときは、公開日をYouTubeで公開された日（日本時間）に直す
+// ・説明文に「📡 新しい記録を受信：北の放送塔」の行があれば、data/world.js の
+//   その名前の記録（まだ unlock が null のもの）を、そのLOGから公開されるようにする
 // ・各LOGの動画のコメント数を読んで、data/reports.js に「受信報告」の数として書く
 //   （コメント本文は読まない・サイトにも載せない。数だけ）
 // 使い方：YOUTUBE_API_KEY=… node .github/scripts/youtube-sync.mjs
@@ -22,6 +24,7 @@ import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 const CHANNEL_ID = process.env.CHANNEL_ID || "UCXAhPdphsnY6_ez3-jxC4dA"; // @lastlifelog
 const LOGS_FILE = "data/logs.js";
 const REPORTS_FILE = "data/reports.js";
+const WORLD_FILE = "data/world.js";
 
 // 結果をGitHubの画面（Actionsのまとめ）にも出す
 function report(line) {
@@ -236,6 +239,37 @@ async function syncReports(logsText) {
   report(`受信報告の数を更新しました（合計 ${total}件）。`);
 }
 
+/* ---------- 世界観の記録を公開する ---------- */
+// 説明文の「📡 新しい記録を受信：北の放送塔」から、記録の名前を読む
+function unlockNames(desc) {
+  const out = [];
+  for (const m of String(desc).matchAll(/新しい記録を受信[：:]\s*(.+)/g)) {
+    // 「／ New record」などが後ろに付いていても、名前だけにする
+    const name = m[1].split(/[／/（(]/)[0].trim();
+    if (name) out.push(name);
+  }
+  return out;
+}
+
+// data/world.js の、名前が同じで unlock が null の記録を、そのLOGから公開にする
+// （すでにLOG番号が入っている記録は、手で決めたものとして変えない）
+function syncWorld(text, videos) {
+  let changed = 0;
+  for (const [id, v] of Object.entries(videos)) {
+    for (const name of unlockNames(v.description)) {
+      const at = text.indexOf(`name: { ja: ${q(name)}`);
+      if (at < 0) { report(`- LOG.${id}：「${name}」という記録が data/world.js にありません。名前を合わせてください`); continue; }
+      const start = text.lastIndexOf("{\n    key:", at);
+      const block = text.slice(start, at);
+      if (!/unlock:\s*null/.test(block)) continue; // もう公開の予定が入っている
+      text = text.slice(0, start) + block.replace(/unlock:\s*null/, `unlock: ${q(id)}`) + text.slice(at);
+      report(`- LOG.${id}：世界観の記録「${name}」を、LOG.${id} から公開するようにしました`);
+      changed++;
+    }
+  }
+  return { text, changed };
+}
+
 let items;
 try {
   items = await fetchItems();
@@ -248,6 +282,10 @@ const videos = videosByLog(items);
 report(`YouTubeで見つかったLOGの動画：${Object.keys(videos).length}本`);
 const { text, changed } = sync(readFileSync(LOGS_FILE, "utf8"), videos);
 if (changed) writeFileSync(LOGS_FILE, text);
+
+// 世界観の記録
+const world = syncWorld(readFileSync(WORLD_FILE, "utf8"), videos);
+if (world.changed) writeFileSync(WORLD_FILE, world.text);
 report(changed ? `サイトのLOGを${changed}本更新しました。` : "サイトのLOGに変更はありませんでした。");
 
 // 受信報告の数。読めなかったときは、前の数のままにして次の回に任せる
