@@ -77,5 +77,19 @@ window.LLL_LOGS = [
     diary: { ja: "やっと晴れた。数日続いた雨が嘘みたいだ。\n朝の空気は冷たくて、冬の匂いがした。\nジャケットのファスナーを一番上まで上げる。吐く息が白い。\nこの世界にあと何回、こんな朝が来るんだろう。\n考えてもわからないから今はただ空を見ていることにした。", en: "Finally, the sun came out. The days of rain feel like a lie now.\nThe morning air was cold, and it smelled like winter.\nI zipped my jacket all the way up. My breath was white.\nHow many more mornings like this will this world have?\nI don't know, so today I decided to just look at the sky." },
     youtube: "B2CiY5hj830",
     image: ""
+  },
+  {
+    id: "006",
+    day: 444,
+    date: "2026-11-11",
+    place:   { ja: "北の放送塔の麓", en: "" },
+    weather: { ja: "冬晴れ", en: "" },
+    summary: {
+      ja: "坂の下の古本屋から、北へずっと歩いた。錆びた看板にはここが街のシンボルだったタワーだと書いてあった。見上げすぎて首が痛くなった。",
+      en: "I walked north from the old bookshop, a long way. A rusted sign said this tower was once the city's symbol. Its name: the North Broadcast Tower."
+    },
+    diary: { ja: "坂の下の古本屋から、北へずっと歩いた。\n錆びた看板にはここが街のシンボルだったタワーだと書いてあった。\n見上げすぎて首が痛くなった。ここからなら、もっと遠くまで届くかもしれない。", en: "I walked north from the old bookshop, a long way.\nA rusted sign said this tower was once the city's symbol. Its name: the North Broadcast Tower.\nI looked up so long my neck hurt. From here, maybe my signal can reach further." },
+    youtube: "-3rPX7se_gM",
+    image: ""
   }
 ];
