@@ -91,5 +91,19 @@ window.LLL_LOGS = [
     diary: { ja: "坂の下の古本屋から、北へずっと歩いた。\n錆びた看板にはここが街のシンボルだったタワーだと書いてあった。\n見上げすぎて首が痛くなった。ここからなら、もっと遠くまで届くかもしれない。", en: "I walked north from the old bookshop, a long way.\nA rusted sign said this tower was once the city's symbol. Its name: the North Broadcast Tower.\nI looked up so long my neck hurt. From here, maybe my signal can reach further." },
     youtube: "-3rPX7se_gM",
     image: ""
+  },
+  {
+    id: "007",
+    day: 449,
+    date: "2026-11-15",
+    place:   { ja: "北の放送塔の麓・売店の跡", en: "" },
+    weather: { ja: "冬晴れの夜", en: "" },
+    summary: {
+      ja: "塔のふもとの売店の跡で、今夜は眠ることにした。値札はぜんぶ、まだ安かった。",
+      en: "Tonight I'm sleeping in the old kiosk at the foot of the tower. Every price tag is still cheap."
+    },
+    diary: { ja: "塔のふもとの売店の跡で、今夜は眠ることにした。値札はぜんぶ、まだ安かった。\n針の止まった時計の下で、夜が深くなるまで、終わってしまったこの世界のことを想っていた。\n明日は、塔の入口を探してみる。", en: "Tonight I'm sleeping in the old kiosk at the foot of the tower. Every price tag is still cheap.\nUnder a clock whose hands have stopped, I thought about this ended world until the night grew deep.\nTomorrow, I'll look for a way into the tower." },
+    youtube: "1jKPPJSmHYE",
+    image: ""
   }
 ];
